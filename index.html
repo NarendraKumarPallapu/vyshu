@@ -1,891 +1,498 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Vyshnavi - Shopify Theme Developer with 4+ years experience in React, Liquid, and e-commerce development">
-    <title>Vyshnavi | Shopify Developer Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #6366f1;
-            --primary-dark: #4f46e5;
-            --secondary: #8b5cf6;
-            --accent: #ec4899;
-            --dark: #0f172a;
-            --gray: #64748b;
-            --light: #f1f5f9;
-            --success: #10b981;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background: #ffffff;
-        }
-
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        .nav-links a {
-            color: var(--dark);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            position: relative;
-            overflow: hidden;
-            padding-top: 80px;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></svg>');
-            background-size: 50px 50px;
-            animation: moveBackground 20s linear infinite;
-        }
-
-        @keyframes moveBackground {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        .hero-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .hero-title {
-            font-size: 4rem;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 1rem;
-            animation: fadeInUp 0.8s ease;
-        }
-
-        .hero-subtitle {
-            font-size: 1.8rem;
-            color: rgba(255,255,255,0.95);
-            margin-bottom: 1.5rem;
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-
-        .hero-description {
-            font-size: 1.2rem;
-            color: rgba(255,255,255,0.9);
-            max-width: 700px;
-            margin: 0 auto 2.5rem;
-            line-height: 1.8;
-            animation: fadeInUp 0.8s ease 0.4s both;
-        }
-
-        .hero-stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            max-width: 900px;
-            margin: 3rem auto 2rem;
-            animation: fadeInUp 0.8s ease 0.6s both;
-        }
-
-        .stat-card {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            padding: 1.5rem;
-            border-radius: 15px;
-            border: 1px solid rgba(255,255,255,0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255,255,255,0.15);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: white;
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .stat-label {
-            color: rgba(255,255,255,0.9);
-            font-size: 0.95rem;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 2rem;
-            animation: fadeInUp 0.8s ease 0.8s both;
-        }
-
-        .btn {
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary {
-            background: white;
-            color: var(--primary);
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: white;
-            border: 2px solid white;
-        }
-
-        .btn-outline:hover {
-            background: white;
-            color: var(--primary);
-        }
-
-        .section {
-            padding: 5rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-
-        .section-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 1rem;
-        }
-
-        .section-title {
-            font-size: 3rem;
-            font-weight: 800;
-            color: var(--dark);
-            margin-bottom: 1rem;
-        }
-
-        .section-description {
-            font-size: 1.2rem;
-            color: var(--gray);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-        }
-
-        .skill-card {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-        }
-
-        .skill-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .skill-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 1rem;
-        }
-
-        .skill-card p {
-            color: var(--gray);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .skill-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        .tag {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .projects-grid {
-            display: grid;
-            gap: 3rem;
-        }
-
-        .project-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-        }
-
-        .project-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-        }
-
-        .project-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 2.5rem;
-        }
-
-        .project-company {
-            font-size: 0.95rem;
-            opacity: 0.9;
-            margin-bottom: 0.5rem;
-        }
-
-        .project-title {
-            font-size: 2rem;
-            font-weight: 700;
-        }
-
-        .project-body {
-            padding: 2.5rem;
-        }
-
-        .project-metrics {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .metric {
-            text-align: center;
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-            border-radius: 15px;
-        }
-
-        .metric-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary);
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .metric-label {
-            font-size: 0.85rem;
-            color: var(--gray);
-            font-weight: 500;
-        }
-
-        .project-highlights {
-            list-style: none;
-        }
-
-        .project-highlights li {
-            padding: 0.8rem 0;
-            padding-left: 2rem;
-            position: relative;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-
-        .project-highlights li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--success);
-            font-weight: 800;
-            font-size: 1.2rem;
-        }
-
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .tech-category {
-            background: white;
-            padding: 2rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-        }
-
-        .tech-category h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 1.5rem;
-        }
-
-        .tech-list {
-            list-style: none;
-        }
-
-        .tech-list li {
-            padding: 0.6rem 0;
-            color: var(--dark);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .tech-list li::before {
-            content: '▸';
-            color: var(--primary);
-            font-weight: bold;
-        }
-
-        .cta-section {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 5rem 2rem;
-            text-align: center;
-            border-radius: 30px;
-            margin: 5rem 0;
-        }
-
-        .cta-section h2 {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-        }
-
-        .cta-section p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0.95;
-        }
-
-        .contact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-        }
-
-        .contact-card {
-            background: white;
-            padding: 2.5rem;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .contact-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-        }
-
-        .contact-icon {
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            margin: 0 auto 1.5rem;
-        }
-
-        .contact-card h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 1rem;
-        }
-
-        .contact-card p {
-            color: var(--gray);
-            font-size: 1rem;
-            word-break: break-word;
-        }
-
-        .contact-card a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.3s ease;
-        }
-
-        .contact-card a:hover {
-            color: var(--secondary);
-            text-decoration: underline;
-        }
-
-        .footer {
-            background: var(--dark);
-            color: white;
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-
-        .footer p {
-            opacity: 0.8;
-            margin: 0.5rem 0;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-            }
-
-            .hero-title {
-                font-size: 2.5rem;
-            }
-
-            .hero-subtitle {
-                font-size: 1.3rem;
-            }
-
-            .hero-stats {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .cta-section h2 {
-                font-size: 2rem;
-            }
-
-            .skills-grid,
-            .tech-grid,
-            .contact-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="logo">Vyshnavi</div>
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <h1 class="hero-title">Hi, I'm Vyshnavi</h1>
-            <p class="hero-subtitle">Shopify Theme Developer & Front-End Specialist</p>
-            <p class="hero-description">
-                Crafting high-performance e-commerce experiences with Liquid, React, and modern web technologies. 
-                Specialized in building scalable Shopify solutions that drive results.
-            </p>
-            
-            <div class="hero-stats">
-                <div class="stat-card">
-                    <span class="stat-number">4+</span>
-                    <span class="stat-label">Years Experience</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">200+</span>
-                    <span class="stat-label">Websites Built</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">45%</span>
-                    <span class="stat-label">Performance Boost</span>
-                </div>
-                <div class="stat-card">
-                    <span class="stat-number">92+</span>
-                    <span class="stat-label">PageSpeed Score</span>
-                </div>
+import React, { useState, useEffect } from 'react';
+import { Code, Zap, Sparkles, Download, Mail, Phone, MapPin, Github, Linkedin, ExternalLink, ChevronDown, Menu, X, ShoppingBag, Layers, Globe, Award } from 'lucide-react';
+
+export default function Portfolio() {
+  const [activeSection, setActiveSection] = useState('home');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  const projects = [
+    {
+      title: "Hospitality E-Commerce Suite",
+      company: "Graniti Vicentia",
+      description: "Developed 12+ custom Shopify themes for hotel chains including Wingate, Holiday Inn, and Hampton properties",
+      metrics: ["45% faster load times", "95% mobile score", "500+ modifications/month"],
+      tech: ["Liquid", "React", "GraphQL", "CSS Grid"],
+      gradient: "from-purple-500 to-pink-500"
+    },
+    {
+      title: "Multi-Store E-Commerce Platform",
+      company: "Aiila Innovations",
+      description: "Managed 150+ e-commerce websites with React architecture and Shopify theme customization",
+      metrics: ["35% performance boost", "28% lower bounce rate", "300+ requests/month"],
+      tech: ["React", "SASS", "JavaScript", "Shopify API"],
+      gradient: "from-blue-500 to-cyan-500"
+    },
+    {
+      title: "Interactive Web Applications",
+      company: "Think Deeply Solution",
+      description: "Built responsive web apps with data visualization and progressive web app features",
+      metrics: ["40% faster load times", "91% delivery accuracy", "200+ components"],
+      tech: ["React", "D3.js", "REST APIs", "PWA"],
+      gradient: "from-green-500 to-teal-500"
+    }
+  ];
+
+  const skills = [
+    { category: "Shopify", items: ["Liquid", "Shopify CLI", "Theme Kit", "Shopify Plus", "Metafields"], icon: ShoppingBag, color: "from-green-400 to-emerald-600" },
+    { category: "Frontend", items: ["React.js", "JavaScript (ES6+)", "HTML5", "CSS3", "Tailwind"], icon: Code, color: "from-blue-400 to-indigo-600" },
+    { category: "APIs", items: ["GraphQL", "REST APIs", "Webhooks", "JSON", "Axios"], icon: Layers, color: "from-purple-400 to-pink-600" },
+    { category: "Tools", items: ["Git/GitHub", "VS Code", "Chrome DevTools", "Webpack", "npm"], icon: Globe, color: "from-orange-400 to-red-600" }
+  ];
+
+  const stats = [
+    { number: "4+", label: "Years Experience", icon: Award },
+    { number: "150+", label: "Websites Built", icon: Globe },
+    { number: "500+", label: "Components", icon: Layers },
+    { number: "95%", label: "Mobile Score", icon: Zap }
+  ];
+
+  const handleDownloadResume = () => {
+    const link = document.createElement('a');
+    link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent('Resume download would be triggered here');
+    link.download = 'Vyshnavi_Resume.pdf';
+    link.click();
+    alert('In a production environment, this would download your PDF resume!');
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div 
+          className="absolute w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
+          style={{
+            left: `${mousePosition.x / 20}px`,
+            top: `${mousePosition.y / 20}px`,
+            transition: 'all 0.3s ease-out'
+          }}
+        />
+        <div 
+          className="absolute w-96 h-96 bg-pink-500/20 rounded-full blur-3xl"
+          style={{
+            right: `${mousePosition.x / 30}px`,
+            bottom: `${mousePosition.y / 30}px`,
+            transition: 'all 0.5s ease-out'
+          }}
+        />
+      </div>
+
+      {/* Navigation */}
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrollY > 50 ? 'bg-slate-900/95 backdrop-blur-lg shadow-xl' : ''}`}>
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-2">
+              <Sparkles className="w-8 h-8 text-purple-400 animate-pulse" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Vyshnavi
+              </span>
             </div>
 
-            <div class="cta-buttons">
-                <a href="#contact" class="btn btn-primary">Get In Touch</a>
-                <a href="#projects" class="btn btn-outline">View Projects</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="skills">
-        <div class="section-header">
-            <div class="section-label">What I Do</div>
-            <h2 class="section-title">Core Expertise</h2>
-            <p class="section-description">
-                Specialized skills in modern web development and e-commerce solutions
-            </p>
-        </div>
-
-        <div class="skills-grid">
-            <div class="skill-card">
-                <div class="skill-icon">🛍️</div>
-                <h3>Shopify Development</h3>
-                <p>Expert in building custom Shopify themes with Liquid templating, optimizing store performance, and implementing seamless e-commerce experiences.</p>
-                <div class="skill-tags">
-                    <span class="tag">Liquid</span>
-                    <span class="tag">Shopify CLI</span>
-                    <span class="tag">Theme Kit</span>
-                    <span class="tag">Shopify Plus</span>
-                    <span class="tag">Metafields</span>
-                    <span class="tag">Sections</span>
-                </div>
+            {/* Desktop Menu */}
+            <div className="hidden md:flex space-x-8">
+              {['Home', 'About', 'Projects', 'Skills', 'Contact'].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="hover:text-purple-400 transition-colors duration-300 relative group"
+                >
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300" />
+                </a>
+              ))}
             </div>
 
-            <div class="skill-card">
-                <div class="skill-icon">💻</div>
-                <h3>Front-End Technologies</h3>
-                <p>Proficient in modern JavaScript frameworks and responsive design principles for creating interactive, mobile-first user experiences.</p>
-                <div class="skill-tags">
-                    <span class="tag">React.js</span>
-                    <span class="tag">JavaScript ES6+</span>
-                    <span class="tag">HTML5/CSS3</span>
-                    <span class="tag">SASS/SCSS</span>
-                    <span class="tag">Tailwind</span>
-                    <span class="tag">Bootstrap</span>
-                </div>
+            {/* Mobile Menu Toggle */}
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden">
+              {isMenuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="md:hidden mt-4 space-y-4 pb-4">
+              {['Home', 'About', 'Projects', 'Skills', 'Contact'].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block hover:text-purple-400 transition-colors"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-20">
+        <div className="max-w-6xl mx-auto text-center relative z-10">
+          <div className="mb-8 animate-bounce">
+            <div className="inline-block p-4 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full backdrop-blur-sm">
+              <ShoppingBag className="w-20 h-20 text-purple-400" />
+            </div>
+          </div>
+          
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
+            Vyshnavi Tammineni
+          </h1>
+          
+          <p className="text-2xl md:text-4xl mb-4 text-purple-300">
+            Shopify Theme Development Specialist
+          </p>
+          
+          <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            Crafting pixel-perfect, high-performance e-commerce experiences with 4+ years of expertise in Shopify, React, and modern web technologies
+          </p>
+
+          {/* Stats Bar */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            {stats.map((stat, idx) => (
+              <div 
+                key={idx}
+                className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
+              >
+                <stat.icon className="w-8 h-8 text-purple-400 mx-auto mb-2" />
+                <div className="text-3xl font-bold text-purple-400 mb-1">{stat.number}</div>
+                <div className="text-sm text-gray-400">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-4 justify-center">
+            <button 
+              onClick={handleDownloadResume}
+              className="group relative px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:scale-105 transition-transform duration-300 flex items-center gap-2"
+            >
+              <Download className="w-5 h-5 group-hover:animate-bounce" />
+              Download Resume
+            </button>
+            <a 
+              href="#contact"
+              className="px-8 py-4 border-2 border-purple-500 rounded-full font-semibold text-lg hover:bg-purple-500/20 transition-all duration-300"
+            >
+              Get In Touch
+            </a>
+          </div>
+
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+            <ChevronDown className="w-8 h-8 text-purple-400" />
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-20 px-6 relative">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            About Me
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300">
+                <Zap className="w-12 h-12 text-purple-400 mb-4" />
+                <h3 className="text-2xl font-bold mb-4 text-purple-300">Expert Developer</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  Specialized in building scalable, high-performance Shopify themes with modern front-end technologies. Reduced page load times by 45% and achieved 95% mobile usability scores across 150+ e-commerce websites.
+                </p>
+              </div>
+
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-pink-500/20 hover:border-pink-500/50 transition-all duration-300">
+                <Code className="w-12 h-12 text-pink-400 mb-4" />
+                <h3 className="text-2xl font-bold mb-4 text-pink-300">Full-Stack Capabilities</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  Proficient in React, JavaScript, GraphQL, and Liquid templating. Built 500+ reusable components and integrated third-party APIs to enhance e-commerce functionality and user experience.
+                </p>
+              </div>
             </div>
 
-            <div class="skill-card">
-                <div class="skill-icon">⚡</div>
-                <h3>Performance & APIs</h3>
-                <p>Specialized in GraphQL integration, REST APIs, and performance optimization techniques for lightning-fast page loads.</p>
-                <div class="skill-tags">
-                    <span class="tag">GraphQL</span>
-                    <span class="tag">REST APIs</span>
-                    <span class="tag">PageSpeed</span>
-                    <span class="tag">SEO</span>
-                    <span class="tag">WCAG 2.1</span>
-                    <span class="tag">Webhooks</span>
+            <div className="space-y-6">
+              <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
+                <h3 className="text-2xl font-bold mb-6 text-purple-300">Quick Facts</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-center gap-3">
+                    <MapPin className="w-5 h-5 text-purple-400 flex-shrink-0" />
+                    <span>Hyderabad, India (Remote - Global)</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Award className="w-5 h-5 text-pink-400 flex-shrink-0" />
+                    <span>Bachelor of Engineering - Computer Science (7.68/10.0 GPA)</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Sparkles className="w-5 h-5 text-purple-400 flex-shrink-0" />
+                    <span>Shopify Partner Program Certified</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Globe className="w-5 h-5 text-pink-400 flex-shrink-0" />
+                    <span>300+ Website Customizations Completed</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 backdrop-blur-sm rounded-2xl p-8 border border-blue-500/30">
+                <h3 className="text-2xl font-bold mb-4 text-blue-300">Certifications</h3>
+                <div className="flex flex-wrap gap-2">
+                  {['Shopify Theme Dev', 'React.js', 'GraphQL', 'Web Accessibility', 'SEO', 'Google Analytics'].map((cert, idx) => (
+                    <span key={idx} className="px-3 py-1 bg-white/10 rounded-full text-sm border border-blue-400/30">
+                      {cert}
+                    </span>
+                  ))}
                 </div>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <section class="section" id="projects">
-        <div class="section-header">
-            <div class="section-label">Portfolio</div>
-            <h2 class="section-title">Featured Projects</h2>
-            <p class="section-description">
-                Real-world impact through innovative e-commerce solutions
-            </p>
-        </div>
+      {/* Projects Section */}
+      <section id="projects" className="py-20 px-6 relative">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Featured Projects
+          </h2>
 
-        <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-header">
-                    <p class="project-company">Graniti Vicentia | Sep 2024 - Present</p>
-                    <h3 class="project-title">Hospitality E-Commerce Platform</h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, idx) => (
+              <div
+                key={idx}
+                className="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+              >
+                <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${project.gradient} flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-300`}>
+                  <ShoppingBag className="w-8 h-8 text-white" />
                 </div>
-                <div class="project-body">
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-value">12+</span>
-                            <span class="metric-label">Custom Themes</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">45%</span>
-                            <span class="metric-label">Load Time ↓</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">50+</span>
-                            <span class="metric-label">Components</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">95%</span>
-                            <span class="metric-label">Mobile Score</span>
-                        </div>
+
+                <h3 className="text-2xl font-bold mb-2 text-purple-300">{project.title}</h3>
+                <p className="text-sm text-gray-400 mb-4">{project.company}</p>
+                <p className="text-gray-300 mb-4">{project.description}</p>
+
+                <div className="space-y-2 mb-4">
+                  {project.metrics.map((metric, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-yellow-400" />
+                      <span className="text-sm text-gray-300">{metric}</span>
                     </div>
-                    <ul class="project-highlights">
-                        <li>Built custom Shopify themes for 10+ hotel properties including Wingate, Holiday Inn, Hampton, and Residence Inn</li>
-                        <li>Developed 50+ reusable Liquid and React components for scalability across multiple stores</li>
-                        <li>Implemented GraphQL-powered dashboards for real-time performance tracking</li>
-                        <li>Integrated payment gateways and third-party apps using REST and GraphQL APIs</li>
-                    </ul>
+                  ))}
                 </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((tech, i) => (
+                    <span key={i} className="px-3 py-1 bg-white/10 rounded-full text-xs border border-purple-400/30">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="py-20 px-6 relative">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Technical Skills
+          </h2>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {skills.map((skillGroup, idx) => (
+              <div
+                key={idx}
+                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
+              >
+                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${skillGroup.color} flex items-center justify-center mb-4`}>
+                  <skillGroup.icon className="w-7 h-7 text-white" />
+                </div>
+                
+                <h3 className="text-xl font-bold mb-4 text-purple-300">{skillGroup.category}</h3>
+                
+                <ul className="space-y-2">
+                  {skillGroup.items.map((skill, i) => (
+                    <li key={i} className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-purple-400" />
+                      <span className="text-sm text-gray-300">{skill}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Additional Skills Cloud */}
+          <div className="mt-12 bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
+            <h3 className="text-2xl font-bold mb-6 text-center text-purple-300">Additional Expertise</h3>
+            <div className="flex flex-wrap justify-center gap-3">
+              {['Performance Optimization', 'SEO', 'WCAG Accessibility', 'Responsive Design', 'Mobile-First', 'Git/GitHub', 'Agile/Scrum', 'Cross-Browser Testing', 'PageSpeed Insights', 'Chrome DevTools', 'Code Reviews', 'API Integration'].map((skill, idx) => (
+                <span 
+                  key={idx}
+                  className="px-4 py-2 bg-white/10 rounded-full text-sm border border-purple-400/30 hover:border-purple-400/60 hover:scale-110 transition-all duration-300 cursor-default"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 px-6 relative">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Let's Connect
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300">
+              <h3 className="text-2xl font-bold mb-6 text-purple-300">Get In Touch</h3>
+              
+              <div className="space-y-4">
+                <a 
+                  href="mailto:vyshnavitammineni009@gmail.com"
+                  className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Mail className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Email</p>
+                    <p className="text-white">vyshnavitammineni009@gmail.com</p>
+                  </div>
+                </a>
+
+                <a 
+                  href="tel:+917702730409"
+                  className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Phone className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Phone</p>
+                    <p className="text-white">+91 7702730409</p>
+                  </div>
+                </a>
+
+                <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center">
+                    <MapPin className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Location</p>
+                    <p className="text-white">Hyderabad, India (Remote - Global)</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="project-card">
-                <div class="project-header">
-                    <p class="project-company">Aiila Innovations | Nov 2022 - Aug 2024</p>
-                    <h3 class="project-title">E-Commerce Solutions at Scale</h3>
-                </div>
-                <div class="project-body">
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-value">150+</span>
-                            <span class="metric-label">Websites</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">35%</span>
-                            <span class="metric-label">Performance ↑</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">300+</span>
-                            <span class="metric-label">Monthly Tasks</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">28%</span>
-                            <span class="metric-label">Bounce Rate ↓</span>
-                        </div>
+            <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
+              <h3 className="text-2xl font-bold mb-6 text-purple-300">Live Availability Status</h3>
+              
+              <div className="space-y-6">
+                <div className="bg-white/5 rounded-xl p-6 border border-green-400/30">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="relative">
+                      <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse" />
+                      <div className="absolute inset-0 w-4 h-4 bg-green-400 rounded-full animate-ping" />
                     </div>
-                    <ul class="project-highlights">
-                        <li>Managed 150+ e-commerce websites with React component-based architecture</li>
-                        <li>Improved site performance by 35% through JavaScript optimization and SASS preprocessing</li>
-                        <li>Built comprehensive component libraries with Liquid and React for consistency</li>
-                        <li>Conducted A/B testing achieving 98% accuracy in design implementation</li>
-                    </ul>
+                    <span className="text-green-400 font-semibold text-lg">Available for Work</span>
+                  </div>
+                  <p className="text-sm text-gray-300">
+                    Currently accepting new projects and opportunities
+                  </p>
                 </div>
-            </div>
 
-            <div class="project-card">
-                <div class="project-header">
-                    <p class="project-company">Think Deeply Solution | Jan 2021 - Oct 2022</p>
-                    <h3 class="project-title">Web Application Development</h3>
-                </div>
-                <div class="project-body">
-                    <div class="project-metrics">
-                        <div class="metric">
-                            <span class="metric-value">50+</span>
-                            <span class="metric-label">Client Sites</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">91%</span>
-                            <span class="metric-label">Accuracy</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">40%</span>
-                            <span class="metric-label">Speed ↑</span>
-                        </div>
-                        <div class="metric">
-                            <span class="metric-value">200+</span>
-                            <span class="metric-label">Components</span>
-                        </div>
+                <div className="bg-white/5 rounded-xl p-6">
+                  <h4 className="font-semibold text-purple-300 mb-3 flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-yellow-400" />
+                    Quick Response Time
+                  </h4>
+                  <div className="space-y-2 text-sm text-gray-300">
+                    <div className="flex justify-between items-center">
+                      <span>Email Response:</span>
+                      <span className="text-purple-400 font-semibold">~2-4 hours</span>
                     </div>
-                    <ul class="project-highlights">
-                        <li>Built interactive web apps using React, HTML5, CSS3, and JavaScript</li>
-                        <li>Implemented code splitting, tree shaking, and PWA features</li>
-                        <li>Created dynamic dashboards with React, D3.js, and REST APIs</li>
-                        <li>Conducted Lighthouse audits and cross-browser compatibility testing</li>
-                    </ul>
+                    <div className="flex justify-between items-center">
+                      <span>Call Availability:</span>
+                      <span className="text-purple-400 font-semibold">Mon-Fri 9AM-6PM IST</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Time Zone:</span>
+                      <span className="text-purple-400 font-semibold">GMT+5:30</span>
+                    </div>
+                  </div>
                 </div>
+
+                <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl p-6 border border-purple-400/40">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Sparkles className="w-5 h-5 text-yellow-400" />
+                    <h4 className="font-semibold text-purple-300">What I'm Looking For</h4>
+                  </div>
+                  <ul className="space-y-2 text-sm text-gray-300">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                      Remote Shopify Developer Roles
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-pink-400" />
+                      Full-Time Contract Positions
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                      E-Commerce Theme Projects
+                    </li>
+                  </ul>
+                </div>
+
+                <button 
+                  onClick={handleDownloadResume}
+                  className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold hover:scale-105 transition-transform duration-300 flex items-center justify-center gap-2 shadow-lg shadow-purple-500/50"
+                >
+                  <Download className="w-5 h-5" />
+                  Download Full Resume
+                </button>
+              </div>
             </div>
+          </div>
         </div>
-    </section>
+      </section>
 
-    <section class="section">
-        <div class="section-header">
-            <div class="section-label">Technical Skills</div>
-            <h2 class="section-title">Tech Stack</h2>
-            <p class="section-description">
-                Modern tools and technologies I work with daily
-            </p>
+      {/* Footer */}
+      <footer className="py-8 px-6 border-t border-purple-500/20 relative">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Sparkles className="w-6 h-6 text-purple-400" />
+            <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Vyshnavi Tammineni
+            </span>
+          </div>
+          <p className="text-gray-400">
+            © 2024 All Rights Reserved | Crafted with React & Tailwind CSS
+          </p>
+          <p className="text-sm text-gray-500 mt-2">
+            Shopify Theme Development Specialist • Web Developer • E-Commerce Expert
+          </p>
         </div>
-
-        <div class="tech-grid">
-            <div class="tech-category">
-                <h3>🛍️ Shopify Ecosystem</h3>
-                <ul class="tech-list">
-                    <li>Liquid Templating</li>
-                    <li>Shopify CLI & Theme Kit</li>
-                    <li>Shopify Plus</li>
-                    <li>Shopify Functions</li>
-                    <li>Metafields Management</li>
-                    <li>Section Development</li>
-                </ul>
-            </div>
-
-            <div class="tech-category">
-                <h3>💻 Front-End</h3>
-                <ul class="tech-list">
-                    <li>React.js</li>
-                    <li>JavaScript (ES6+)</li>
-                    <li>HTML5 & CSS3</li>
-                    <li>SASS/SCSS</li>
-                    <li>Tailwind CSS</li>
-                    <li>Bootstrap</li>
-                </ul>
-            </div>
-
-            <div class="tech-category">
-                <h3>⚡ APIs & Integration</h3>
-                <ul class="tech-list">
-                    <li>GraphQL</li>
-                    <li>REST APIs</li>
-                    <li>Webhook Implementation</li>
-                    <li>Third-Party Apps</li>
-                    <li>Payment Gateways</li>
-                    <li>JSON/Fetch API</li>
-                </ul>
-            </div>
-
-            <div class="tech-category">
-                <h3>🔧 Development Tools</h3>
-                <ul class="tech-list">
-                    <li>Git/GitHub</li>
-                    <li>VS Code</li>
-                    <li>Chrome DevTools</li>
-                    <li>npm/Yarn</li>
-                    <li>Webpack</li>
-                    <li>ESLint/Prettier</li>
-                </ul>
-            </div>
-
-            <div class="tech-category">
-                <h3>🚀 Performance & SEO</h3>
-                <ul class="tech-list">
-                    <li>PageSpeed Insights</li>
-                    <li>Lighthouse Audits</li>
-                    <li>Core Web Vitals</li>
-                    <li>Image Optimization</li>
-                    <li>Lazy Loading</li>
-                    <li>Code Minification</li>
-                </ul>
-            </div>
-
-            <div class="tech-category">
-                <h3>✅ Additional Skills</h3>
-                <ul class="tech-list">
-                    <li>Responsive Design</li>
-                    <li>WCAG 2.1 Compliance</li>
-                    <li>Cross-Browser Testing</li>
-                    <li>Agile/Scrum</li>
-                    <li>Code Reviews</li>
-                    <li>CI/CD Pipelines</li>
-                </ul>
-            </div>
-        </div>
-    </section>
-
-    <div class="cta-section">
-        <h2>Ready to Build Amazing Shopify Experiences</h2>
-        <p>Let's create high-performance e-commerce solutions together!</p>
-        <a href="#contact" class="btn btn-primary">Get In Touch</a>
+      </footer>
     </div>
-
-    <section class="section" id="contact">
-        <div class="section-header">
-            <div class="section-label">Get In Touch</div>
-            <h2 class="section-title">Contact Information</h2>
-            <p class="section-description">
-                Available for remote opportunities worldwide
-            </p>
-        </div>
-
-        <div class="contact-grid">
-            <div class="contact-card">
-                <div class="contact-icon
+  );
+}
