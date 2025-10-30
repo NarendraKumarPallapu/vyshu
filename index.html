@@ -1,498 +1,772 @@
-import React, { useState, useEffect } from 'react';
-import { Code, Zap, Sparkles, Download, Mail, Phone, MapPin, Github, Linkedin, ExternalLink, ChevronDown, Menu, X, ShoppingBag, Layers, Globe, Award } from 'lucide-react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vyshnavi Tammineni - Shopify Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-export default function Portfolio() {
-  const [activeSection, setActiveSection] = useState('home');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrollY, setScrollY] = useState(0);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #4facfe 75%, #00f2fe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: #fff;
+            overflow-x: hidden;
+        }
 
-  useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    const handleMouseMove = (e) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    window.addEventListener('mousemove', handleMouseMove);
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-  const projects = [
-    {
-      title: "Hospitality E-Commerce Suite",
-      company: "Graniti Vicentia",
-      description: "Developed 12+ custom Shopify themes for hotel chains including Wingate, Holiday Inn, and Hampton properties",
-      metrics: ["45% faster load times", "95% mobile score", "500+ modifications/month"],
-      tech: ["Liquid", "React", "GraphQL", "CSS Grid"],
-      gradient: "from-purple-500 to-pink-500"
-    },
-    {
-      title: "Multi-Store E-Commerce Platform",
-      company: "Aiila Innovations",
-      description: "Managed 150+ e-commerce websites with React architecture and Shopify theme customization",
-      metrics: ["35% performance boost", "28% lower bounce rate", "300+ requests/month"],
-      tech: ["React", "SASS", "JavaScript", "Shopify API"],
-      gradient: "from-blue-500 to-cyan-500"
-    },
-    {
-      title: "Interactive Web Applications",
-      company: "Think Deeply Solution",
-      description: "Built responsive web apps with data visualization and progressive web app features",
-      metrics: ["40% faster load times", "91% delivery accuracy", "200+ components"],
-      tech: ["React", "D3.js", "REST APIs", "PWA"],
-      gradient: "from-green-500 to-teal-500"
-    }
-  ];
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
 
-  const skills = [
-    { category: "Shopify", items: ["Liquid", "Shopify CLI", "Theme Kit", "Shopify Plus", "Metafields"], icon: ShoppingBag, color: "from-green-400 to-emerald-600" },
-    { category: "Frontend", items: ["React.js", "JavaScript (ES6+)", "HTML5", "CSS3", "Tailwind"], icon: Code, color: "from-blue-400 to-indigo-600" },
-    { category: "APIs", items: ["GraphQL", "REST APIs", "Webhooks", "JSON", "Axios"], icon: Layers, color: "from-purple-400 to-pink-600" },
-    { category: "Tools", items: ["Git/GitHub", "VS Code", "Chrome DevTools", "Webpack", "npm"], icon: Globe, color: "from-orange-400 to-red-600" }
-  ];
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
 
-  const stats = [
-    { number: "4+", label: "Years Experience", icon: Award },
-    { number: "150+", label: "Websites Built", icon: Globe },
-    { number: "500+", label: "Components", icon: Layers },
-    { number: "95%", label: "Mobile Score", icon: Zap }
-  ];
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
 
-  const handleDownloadResume = () => {
-    const link = document.createElement('a');
-    link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent('Resume download would be triggered here');
-    link.download = 'Vyshnavi_Resume.pdf';
-    link.click();
-    alert('In a production environment, this would download your PDF resume!');
-  };
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div 
-          className="absolute w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
-          style={{
-            left: `${mousePosition.x / 20}px`,
-            top: `${mousePosition.y / 20}px`,
-            transition: 'all 0.3s ease-out'
-          }}
-        />
-        <div 
-          className="absolute w-96 h-96 bg-pink-500/20 rounded-full blur-3xl"
-          style={{
-            right: `${mousePosition.x / 30}px`,
-            bottom: `${mousePosition.y / 30}px`,
-            transition: 'all 0.5s ease-out'
-          }}
-        />
-      </div>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-      {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrollY > 50 ? 'bg-slate-900/95 backdrop-blur-lg shadow-xl' : ''}`}>
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-2">
-              <Sparkles className="w-8 h-8 text-purple-400 animate-pulse" />
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                Vyshnavi
-              </span>
-            </div>
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 5%;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
 
-            {/* Desktop Menu */}
-            <div className="hidden md:flex space-x-8">
-              {['Home', 'About', 'Projects', 'Skills', 'Contact'].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  className="hover:text-purple-400 transition-colors duration-300 relative group"
-                >
-                  {item}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300" />
-                </a>
-              ))}
-            </div>
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-            {/* Mobile Menu Toggle */}
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden">
-              {isMenuOpen ? <X /> : <Menu />}
-            </button>
-          </div>
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #f093fb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s ease-in-out infinite;
+        }
 
-          {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="md:hidden mt-4 space-y-4 pb-4">
-              {['Home', 'About', 'Projects', 'Skills', 'Contact'].map((item) => (
-                <a
-                  key={item}
-                  href={`#${item.toLowerCase()}`}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="block hover:text-purple-400 transition-colors"
-                >
-                  {item}
-                </a>
-              ))}
-            </div>
-          )}
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #4ecdc4;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 5% 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            animation: fadeIn 1s ease-out;
+        }
+
+        .hero-icon {
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+        }
+
+        .hero-icon svg {
+            width: 80px;
+            height: 80px;
+            fill: #fff;
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, #fff, #4ecdc4, #ff6b6b, #f093fb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            color: #4ecdc4;
+            margin-bottom: 1rem;
+            animation: slideInRight 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.8;
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            max-width: 900px;
+            margin: 3rem auto;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s;
+            animation: fadeIn 2s ease-out;
+        }
+
+        .stat-box:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: #4ecdc4;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .btn {
+            padding: 1.2rem 3rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 3px solid #4ecdc4;
+        }
+
+        .btn-secondary:hover {
+            background: #4ecdc4;
+            transform: translateY(-5px);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h2 {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #f093fb);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* About Section */
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s;
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            border-color: #4ecdc4;
+            box-shadow: 0 20px 50px rgba(78, 205, 196, 0.3);
+        }
+
+        .about-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: #4ecdc4;
+        }
+
+        .about-card p {
+            line-height: 1.8;
+            opacity: 0.9;
+        }
+
+        .icon-box {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .icon-box svg {
+            width: 40px;
+            height: 40px;
+            fill: #fff;
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 2.5rem;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: rotate(45deg);
+            transition: all 0.6s;
+        }
+
+        .project-card:hover::before {
+            left: 100%;
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+            border-color: #4ecdc4;
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-icon svg {
+            width: 30px;
+            height: 30px;
+            fill: #fff;
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .company {
+            color: #4ecdc4;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .metrics {
+            margin: 1.5rem 0;
+        }
+
+        .metric {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.5rem 0;
+            font-size: 0.95rem;
+        }
+
+        .metric::before {
+            content: '⚡';
+            font-size: 1.2rem;
+        }
+
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-10px);
+            border-color: #ff6b6b;
+            box-shadow: 0 20px 50px rgba(255, 107, 107, 0.3);
+        }
+
+        .skill-category h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #ff6b6b;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-list li {
+            padding: 0.7rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .skill-list li::before {
+            content: '▸ ';
+            color: #4ecdc4;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.3s;
+        }
+
+        .contact-card:hover {
+            transform: translateY(-10px);
+            border-color: #f093fb;
+            box-shadow: 0 20px 50px rgba(240, 147, 251, 0.3);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: #fff;
+        }
+
+        .contact-info h4 {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .availability-status {
+            background: rgba(78, 205, 196, 0.2);
+            border: 2px solid #4ecdc4;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-dot {
+            width: 20px;
+            height: 20px;
+            background: #4ecdc4;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 20px #4ecdc4;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(26, 26, 46, 0.95);
+            padding: 2rem 5%;
+            text-align: center;
+        }
+
+        footer p {
+            opacity: 0.8;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            .hero h2 { font-size: 1.5rem; }
+            .nav-links { display: none; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .projects-grid, .skills-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">✨ Vyshnavi</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </div>
-      </nav>
+    </nav>
 
-      {/* Hero Section */}
-      <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-20">
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <div className="mb-8 animate-bounce">
-            <div className="inline-block p-4 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full backdrop-blur-sm">
-              <ShoppingBag className="w-20 h-20 text-purple-400" />
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">
+                <svg viewBox="0 0 24 24">
+                    <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/>
+                </svg>
             </div>
-          </div>
-          
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
-            Vyshnavi Tammineni
-          </h1>
-          
-          <p className="text-2xl md:text-4xl mb-4 text-purple-300">
-            Shopify Theme Development Specialist
-          </p>
-          
-          <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
-            Crafting pixel-perfect, high-performance e-commerce experiences with 4+ years of expertise in Shopify, React, and modern web technologies
-          </p>
+            <h1>VYSHNAVI TAMMINENI</h1>
+            <h2>Shopify Theme Development Specialist</h2>
+            <p>Crafting pixel-perfect, high-performance e-commerce experiences with 4+ years of expertise in Shopify, React, and modern web technologies</p>
+            
+            <div class="stats">
+                <div class="stat-box">
+                    <div class="stat-number">4+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">150+</div>
+                    <div class="stat-label">Websites Built</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Components</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-number">95%</div>
+                    <div class="stat-label">Mobile Score</div>
+                </div>
+            </div>
 
-          {/* Stats Bar */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
-            {stats.map((stat, idx) => (
-              <div 
-                key={idx}
-                className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
-              >
-                <stat.icon className="w-8 h-8 text-purple-400 mx-auto mb-2" />
-                <div className="text-3xl font-bold text-purple-400 mb-1">{stat.number}</div>
-                <div className="text-sm text-gray-400">{stat.label}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap gap-4 justify-center">
-            <button 
-              onClick={handleDownloadResume}
-              className="group relative px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:scale-105 transition-transform duration-300 flex items-center gap-2"
-            >
-              <Download className="w-5 h-5 group-hover:animate-bounce" />
-              Download Resume
-            </button>
-            <a 
-              href="#contact"
-              className="px-8 py-4 border-2 border-purple-500 rounded-full font-semibold text-lg hover:bg-purple-500/20 transition-all duration-300"
-            >
-              Get In Touch
-            </a>
-          </div>
-
-          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-            <ChevronDown className="w-8 h-8 text-purple-400" />
-          </div>
+            <div class="btn-container">
+                <button class="btn btn-primary" onclick="downloadResume()">📥 Download Resume</button>
+                <a href="#contact" class="btn btn-secondary">💬 Get In Touch</a>
+            </div>
         </div>
-      </section>
+    </section>
 
-      {/* About Section */}
-      <section id="about" className="py-20 px-6 relative">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            About Me
-          </h2>
-          
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300">
-                <Zap className="w-12 h-12 text-purple-400 mb-4" />
-                <h3 className="text-2xl font-bold mb-4 text-purple-300">Expert Developer</h3>
-                <p className="text-gray-300 leading-relaxed">
-                  Specialized in building scalable, high-performance Shopify themes with modern front-end technologies. Reduced page load times by 45% and achieved 95% mobile usability scores across 150+ e-commerce websites.
-                </p>
-              </div>
-
-              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-pink-500/20 hover:border-pink-500/50 transition-all duration-300">
-                <Code className="w-12 h-12 text-pink-400 mb-4" />
-                <h3 className="text-2xl font-bold mb-4 text-pink-300">Full-Stack Capabilities</h3>
-                <p className="text-gray-300 leading-relaxed">
-                  Proficient in React, JavaScript, GraphQL, and Liquid templating. Built 500+ reusable components and integrated third-party APIs to enhance e-commerce functionality and user experience.
-                </p>
-              </div>
+    <!-- About Section -->
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="about-grid">
+            <div class="about-card">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M13 2.05v3.03c3.39.49 6 3.39 6 6.92 0 .9-.18 1.75-.48 2.54l2.6 1.53c.56-1.24.88-2.62.88-4.07 0-5.18-3.95-9.45-9-9.95zM12 19c-3.87 0-7-3.13-7-7 0-3.53 2.61-6.43 6-6.92V2.05c-5.06.5-9 4.76-9 9.95 0 5.52 4.47 10 9.99 10 3.31 0 6.24-1.61 8.06-4.09l-2.6-1.53C16.17 17.98 14.21 19 12 19z"/>
+                    </svg>
+                </div>
+                <h3>Expert Developer</h3>
+                <p>Specialized in building scalable, high-performance Shopify themes. Reduced page load times by 45% and achieved 95% mobile usability scores across 150+ e-commerce websites.</p>
             </div>
 
-            <div className="space-y-6">
-              <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
-                <h3 className="text-2xl font-bold mb-6 text-purple-300">Quick Facts</h3>
-                <ul className="space-y-4">
-                  <li className="flex items-center gap-3">
-                    <MapPin className="w-5 h-5 text-purple-400 flex-shrink-0" />
-                    <span>Hyderabad, India (Remote - Global)</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <Award className="w-5 h-5 text-pink-400 flex-shrink-0" />
-                    <span>Bachelor of Engineering - Computer Science (7.68/10.0 GPA)</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <Sparkles className="w-5 h-5 text-purple-400 flex-shrink-0" />
-                    <span>Shopify Partner Program Certified</span>
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <Globe className="w-5 h-5 text-pink-400 flex-shrink-0" />
-                    <span>300+ Website Customizations Completed</span>
-                  </li>
+            <div class="about-card">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/>
+                    </svg>
+                </div>
+                <h3>Full-Stack Skills</h3>
+                <p>Proficient in React, JavaScript, GraphQL, and Liquid templating. Built 500+ reusable components and integrated third-party APIs to enhance e-commerce functionality.</p>
+            </div>
+
+            <div class="about-card">
+                <div class="icon-box">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                </div>
+                <h3>Proven Results</h3>
+                <p>4+ years of professional experience with certifications in Shopify, React, GraphQL, and Web Accessibility. Bachelor's in Computer Science with 7.68/10.0 GPA.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2>Featured Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M19 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Hospitality E-Commerce Suite</h3>
+                        <div class="company">Graniti Vicentia</div>
+                    </div>
+                </div>
+                <p>Developed 12+ custom Shopify themes for hotel chains including Wingate, Holiday Inn, and Hampton properties with responsive design and optimal performance.</p>
+                <div class="metrics">
+                    <div class="metric">45% faster load times</div>
+                    <div class="metric">95% mobile usability score</div>
+                    <div class="metric">500+ monthly modifications</div>
+                </div>
+                <div class="tech-tags">
+                    <span class="tag">Liquid</span>
+                    <span class="tag">React</span>
+                    <span class="tag">GraphQL</span>
+                    <span class="tag">CSS Grid</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Multi-Store E-Commerce Platform</h3>
+                        <div class="company">Aiila Innovations</div>
+                    </div>
+                </div>
+                <p>Managed 150+ e-commerce websites with React architecture and Shopify theme customization, processing 300+ customization requests monthly.</p>
+                <div class="metrics">
+                    <div class="metric">35% performance improvement</div>
+                    <div class="metric">28% lower bounce rate</div>
+                    <div class="metric">300+ requests monthly</div>
+                </div>
+                <div class="tech-tags">
+                    <span class="tag">React</span>
+                    <span class="tag">SASS</span>
+                    <span class="tag">JavaScript</span>
+                    <span class="tag">Shopify API</span>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Interactive Web Applications</h3>
+                        <div class="company">Think Deeply Solution</div>
+                    </div>
+                </div>
+                <p>Built responsive web applications with data visualization and progressive web app features for e-commerce platforms with 91% delivery accuracy.</p>
+                <div class="metrics">
+                    <div class="metric">40% faster page loads</div>
+                    <div class="metric">91% delivery accuracy</div>
+                    <div class="metric">200+ components built</div>
+                </div>
+                <div class="tech-tags">
+                    <span class="tag">React</span>
+                    <span class="tag">D3.js</span>
+                    <span class="tag">REST APIs</span>
+                    <span class="tag">PWA</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <h2>Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3>🛒 Shopify Development</h3>
+                <ul class="skill-list">
+                    <li>Liquid Templating</li>
+                    <li>Shopify CLI & Theme Kit</li>
+                    <li>Shopify Plus</li>
+                    <li>Custom Apps Integration</li>
+                    <li>Metafields Management</li>
                 </ul>
-              </div>
-
-              <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 backdrop-blur-sm rounded-2xl p-8 border border-blue-500/30">
-                <h3 className="text-2xl font-bold mb-4 text-blue-300">Certifications</h3>
-                <div className="flex flex-wrap gap-2">
-                  {['Shopify Theme Dev', 'React.js', 'GraphQL', 'Web Accessibility', 'SEO', 'Google Analytics'].map((cert, idx) => (
-                    <span key={idx} className="px-3 py-1 bg-white/10 rounded-full text-sm border border-blue-400/30">
-                      {cert}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Projects Section */}
-      <section id="projects" className="py-20 px-6 relative">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Featured Projects
-          </h2>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project, idx) => (
-              <div
-                key={idx}
-                className="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300 hover:scale-105 hover:-translate-y-2"
-              >
-                <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${project.gradient} flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-300`}>
-                  <ShoppingBag className="w-8 h-8 text-white" />
-                </div>
-
-                <h3 className="text-2xl font-bold mb-2 text-purple-300">{project.title}</h3>
-                <p className="text-sm text-gray-400 mb-4">{project.company}</p>
-                <p className="text-gray-300 mb-4">{project.description}</p>
-
-                <div className="space-y-2 mb-4">
-                  {project.metrics.map((metric, i) => (
-                    <div key={i} className="flex items-center gap-2">
-                      <Zap className="w-4 h-4 text-yellow-400" />
-                      <span className="text-sm text-gray-300">{metric}</span>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  {project.tech.map((tech, i) => (
-                    <span key={i} className="px-3 py-1 bg-white/10 rounded-full text-xs border border-purple-400/30">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Skills Section */}
-      <section id="skills" className="py-20 px-6 relative">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Technical Skills
-          </h2>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {skills.map((skillGroup, idx) => (
-              <div
-                key={idx}
-                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
-              >
-                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${skillGroup.color} flex items-center justify-center mb-4`}>
-                  <skillGroup.icon className="w-7 h-7 text-white" />
-                </div>
-                
-                <h3 className="text-xl font-bold mb-4 text-purple-300">{skillGroup.category}</h3>
-                
-                <ul className="space-y-2">
-                  {skillGroup.items.map((skill, i) => (
-                    <li key={i} className="flex items-center gap-2">
-                      <div className="w-2 h-2 rounded-full bg-purple-400" />
-                      <span className="text-sm text-gray-300">{skill}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-
-          {/* Additional Skills Cloud */}
-          <div className="mt-12 bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
-            <h3 className="text-2xl font-bold mb-6 text-center text-purple-300">Additional Expertise</h3>
-            <div className="flex flex-wrap justify-center gap-3">
-              {['Performance Optimization', 'SEO', 'WCAG Accessibility', 'Responsive Design', 'Mobile-First', 'Git/GitHub', 'Agile/Scrum', 'Cross-Browser Testing', 'PageSpeed Insights', 'Chrome DevTools', 'Code Reviews', 'API Integration'].map((skill, idx) => (
-                <span 
-                  key={idx}
-                  className="px-4 py-2 bg-white/10 rounded-full text-sm border border-purple-400/30 hover:border-purple-400/60 hover:scale-110 transition-all duration-300 cursor-default"
-                >
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-20 px-6 relative">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Let's Connect
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300">
-              <h3 className="text-2xl font-bold mb-6 text-purple-300">Get In Touch</h3>
-              
-              <div className="space-y-4">
-                <a 
-                  href="mailto:vyshnavitammineni009@gmail.com"
-                  className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Mail className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Email</p>
-                    <p className="text-white">vyshnavitammineni009@gmail.com</p>
-                  </div>
-                </a>
-
-                <a 
-                  href="tel:+917702730409"
-                  className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group"
-                >
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Phone className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Phone</p>
-                    <p className="text-white">+91 7702730409</p>
-                  </div>
-                </a>
-
-                <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center">
-                    <MapPin className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <p className="text-sm text-gray-400">Location</p>
-                    <p className="text-white">Hyderabad, India (Remote - Global)</p>
-                  </div>
-                </div>
-              </div>
             </div>
 
-            <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
-              <h3 className="text-2xl font-bold mb-6 text-purple-300">Live Availability Status</h3>
-              
-              <div className="space-y-6">
-                <div className="bg-white/5 rounded-xl p-6 border border-green-400/30">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="relative">
-                      <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse" />
-                      <div className="absolute inset-0 w-4 h-4 bg-green-400 rounded-full animate-ping" />
-                    </div>
-                    <span className="text-green-400 font-semibold text-lg">Available for Work</span>
-                  </div>
-                  <p className="text-sm text-gray-300">
-                    Currently accepting new projects and opportunities
-                  </p>
-                </div>
-
-                <div className="bg-white/5 rounded-xl p-6">
-                  <h4 className="font-semibold text-purple-300 mb-3 flex items-center gap-2">
-                    <Zap className="w-5 h-5 text-yellow-400" />
-                    Quick Response Time
-                  </h4>
-                  <div className="space-y-2 text-sm text-gray-300">
-                    <div className="flex justify-between items-center">
-                      <span>Email Response:</span>
-                      <span className="text-purple-400 font-semibold">~2-4 hours</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span>Call Availability:</span>
-                      <span className="text-purple-400 font-semibold">Mon-Fri 9AM-6PM IST</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span>Time Zone:</span>
-                      <span className="text-purple-400 font-semibold">GMT+5:30</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl p-6 border border-purple-400/40">
-                  <div className="flex items-center gap-2 mb-3">
-                    <Sparkles className="w-5 h-5 text-yellow-400" />
-                    <h4 className="font-semibold text-purple-300">What I'm Looking For</h4>
-                  </div>
-                  <ul className="space-y-2 text-sm text-gray-300">
-                    <li className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-                      Remote Shopify Developer Roles
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-pink-400" />
-                      Full-Time Contract Positions
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-                      E-Commerce Theme Projects
-                    </li>
-                  </ul>
-                </div>
-
-                <button 
-                  onClick={handleDownloadResume}
-                  className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold hover:scale-105 transition-transform duration-300 flex items-center justify-center gap-2 shadow-lg shadow-purple-500/50"
-                >
-                  <Download className="w-5 h-5" />
-                  Download Full Resume
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="py-8 px-6 border-t border-purple-500/20 relative">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Sparkles className="w-6 h-6 text-purple-400" />
-            <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-              Vyshnavi Tammineni
-            </span>
-          </div>
-          <p className="text-gray-400">
-            © 2024 All Rights Reserved | Crafted with React & Tailwind CSS
-          </p>
-          <p className="text-sm text-gray-500 mt-2">
-            Shopify Theme Development Specialist • Web Developer • E-Commerce Expert
-          </p>
-        </div>
-      </footer>
-    </div>
-  );
-}
+            <div class="skill-category">
+                <h3>💻 Fronten
