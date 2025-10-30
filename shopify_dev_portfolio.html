@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vyshnavi | Shopify Theme Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f8f9fa;
+            padding: 0;
+            margin: 0;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .header .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 1rem;
+        }
+
+        .header .tagline {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .header-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .section {
+            margin: 3rem 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            color: #1a1a2e;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 2px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .skill-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 3px solid #667eea;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .skill-card h3 {
+            color: #667eea;
+            margin-bottom: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        .skill-card p {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.3rem 0.7rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+
+        .project-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+        }
+
+        .project-company {
+            font-size: 0.85rem;
+            opacity: 0.9;
+            margin-bottom: 0.3rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .project-body {
+            padding: 1.5rem;
+        }
+
+        .project-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .project-highlights {
+            list-style: none;
+            margin-top: 0.8rem;
+        }
+
+        .project-highlights li {
+            padding: 0.4rem 0;
+            padding-left: 1.3rem;
+            position: relative;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .project-highlights li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #96bf48;
+            font-weight: bold;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 1.5rem;
+            text-align: center;
+            border-radius: 12px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .cta-section p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.95;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .btn:hover {
+            background: transparent;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .contact-item h3 {
+            color: #667eea;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-item p {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .tech-stack {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 2rem;
+        }
+
+        .tech-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .tech-category h4 {
+            color: #667eea;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+        }
+
+        .tech-list {
+            list-style: none;
+        }
+
+        .tech-list li {
+            padding: 0.25rem 0;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .footer {
+            background: #1a1a2e;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            margin: 0.3rem 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .header .subtitle {
+                font-size: 1.1rem;
+            }
+
+            .header-stats {
+                gap: 1rem;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .projects-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>Vyshnavi</h1>
+            <p class="subtitle">Shopify Theme Developer & Front-End Specialist</p>
+            <p class="tagline">Crafting high-performance e-commerce experiences with Liquid, React, and modern web technologies</p>
+            <div class="header-stats">
+                <div class="stat">
+                    <span class="stat-number">4+</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">200+</span>
+                    <span class="stat-label">Websites Built</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">45%</span>
+                    <span class="stat-label">Performance Boost</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">92+</span>
+                    <span class="stat-label">PageSpeed Score</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="section">
+            <h2 class="section-title">Core Expertise</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3>🛍️ Shopify Development</h3>
+                    <p>Expert in building custom Shopify themes with Liquid templating, optimizing store performance, and implementing seamless e-commerce experiences.</p>
+                    <div class="skill-tags">
+                        <span class="tag">Liquid</span>
+                        <span class="tag">Shopify CLI</span>
+                        <span class="tag">Theme Kit</span>
+                        <span class="tag">Shopify Plus</span>
+                        <span class="tag">Metafields</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h3>💻 Front-End Technologies</h3>
+                    <p>Proficient in modern JavaScript frameworks and responsive design principles for creating interactive, mobile-first user experiences.</p>
+                    <div class="skill-tags">
+                        <span class="tag">React.js</span>
+                        <span class="tag">JavaScript ES6+</span>
+                        <span class="tag">HTML5/CSS3</span>
+                        <span class="tag">Responsive Design</span>
+                        <span class="tag">SASS/SCSS</span>
+                    </div>
+                </div>
+
+                <div class="skill-card">
+                    <h3>⚡ Performance & APIs</h3>
+                    <p>Specialized in GraphQL integration, REST APIs, and performance optimization techniques for lightning-fast page loads.</p>
+                    <div class="skill-tags">
+                        <span class="tag">GraphQL</span>
+                        <span class="tag">REST APIs</span>
+                        <span class="tag">PageSpeed</span>
+                        <span class="tag">SEO</span>
+                        <span class="tag">WCAG 2.1</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <p class="project-company">Graniti Vicentia | Sep 2024 - Present</p>
+                        <h3 class="project-title">Hospitality E-Commerce Platform</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">12+</span>
+                                <span class="metric-label">Custom Themes</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">45%</span>
+                                <span class="metric-label">Load Time ↓</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">50+</span>
+                                <span class="metric-label">Reusable Components</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">95%</span>
+                                <span class="metric-label">Mobile Score</span>
+                            </div>
+                        </div>
+                        <ul class="project-highlights">
+                            <li>Built custom Shopify themes for 10+ hotel properties</li>
+                            <li>Developed 50+ reusable Liquid & React components</li>
+                            <li>Implemented GraphQL dashboards for performance tracking</li>
+                            <li>Integrated payment gateways via REST/GraphQL APIs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <p class="project-company">Aiila Innovations | Nov 2022 - Aug 2024</p>
+                        <h3 class="project-title">E-Commerce Solutions at Scale</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">150+</span>
+                                <span class="metric-label">Websites Managed</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">35%</span>
+                                <span class="metric-label">Performance ↑</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">300+</span>
+                                <span class="metric-label">Monthly Requests</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">28%</span>
+                                <span class="metric-label">Bounce Rate ↓</span>
+                            </div>
+                        </div>
+                        <ul class="project-highlights">
+                            <li>Executed React component-based architecture for 150+ stores</li>
+                            <li>Improved load times by 40% through JavaScript optimization</li>
+                            <li>Built comprehensive component libraries with Liquid & React</li>
+                            <li>Conducted A/B testing achieving 98% design accuracy</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-header">
+                        <p class="project-company">Think Deeply Solution | Jan 2021 - Oct 2022</p>
+                        <h3 class="project-title">Web Application Development</h3>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-metrics">
+                            <div class="metric">
+                                <span class="metric-value">50+</span>
+                                <span class="metric-label">Client Websites</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">91%</span>
+                                <span class="metric-label">Delivery Accuracy</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">40%</span>
+                                <span class="metric-label">Speed Improvement</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">200+</span>
+                                <span class="metric-label">Components Built</span>
+                            </div>
+                        </div>
+                        <ul class="project-highlights">
+                            <li>Built interactive web apps using React, HTML5, CSS3, JavaScript</li>
+                            <li>Implemented code splitting, tree shaking, and PWA features</li>
+                            <li>Created dynamic dashboards with React, D3.js, and REST APIs</li>
+                            <li>Conducted Lighthouse audits and cross-browser testing</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="tech-stack">
+                <div class="tech-categories">
+                    <div class="tech-category">
+                        <h4>Shopify Ecosystem</h4>
+                        <ul class="tech-list">
+                            <li>Liquid Templating</li>
+                            <li>Shopify CLI & Theme Kit</li>
+                            <li>Shopify Plus</li>
+                            <li>Shopify Functions</li>
+                            <li>Metafields Management</li>
+                            <li>Section Development</li>
+                        </ul>
+                    </div>
+                    <div class="tech-category">
+                        <h4>Front-End</h4>
+                        <ul class="tech-list">
+                            <li>React.js</li>
+                            <li>JavaScript (ES6+)</li>
+                            <li>HTML5 & CSS3</li>
+                            <li>SASS/SCSS</li>
+                            <li>Tailwind CSS</li>
+                            <li>Bootstrap</li>
+                        </ul>
+                    </div>
+                    <div class="tech-category">
+                        <h4>APIs & Integration</h4>
+                        <ul class="tech-list">
+                            <li>GraphQL</li>
+                            <li>REST APIs</li>
+                            <li>Webhook Implementation</li>
+                            <li>Third-Party Apps</li>
+                            <li>Payment Gateways</li>
+                            <li>JSON/Fetch API</li>
+                        </ul>
+                    </div>
+                    <div class="tech-category">
+                        <h4>Development Tools</h4>
+                        <ul class="tech-list">
+                            <li>Git/GitHub</li>
+                            <li>VS Code</li>
+                            <li>Chrome DevTools</li>
+                            <li>npm/Yarn</li>
+                            <li>Webpack</li>
+                            <li>ESLint/Prettier</li>
+                        </ul>
+                    </div>
+                    <div class="tech-category">
+                        <h4>Performance & SEO</h4>
+                        <ul class="tech-list">
+                            <li>PageSpeed Insights</li>
+                            <li>Lighthouse Audits</li>
+                            <li>Core Web Vitals</li>
+                            <li>Image Optimization</li>
+                            <li>Lazy Loading</li>
+                            <li>Code Minification</li>
+                        </ul>
+                    </div>
+                    <div class="tech-category">
+                        <h4>Additional Skills</h4>
+                        <ul class="tech-list">
+                            <li>Responsive Design</li>
+                            <li>WCAG 2.1 Compliance</li>
+                            <li>Cross-Browser Testing</li>
+                            <li>Agile/Scrum</li>
+                            <li>Code Reviews</li>
+                            <li>CI/CD Pipelines</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-section">
+            <h2>Ready to Build Amazing Shopify Experiences</h2>
+            <p>Let's create high-performance e-commerce solutions together!</p>
+            <a href="#contact" class="btn">Get in Touch</a>
+        </div>
+
+        <section class="section" id="contact">
+            <h2 class="section-title">Contact Information</h2>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <div class="contact-icon">📍</div>
+                    <h3>Location</h3>
+                    <p>Hyderabad, India<br>Remote - Global</p>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📧</div>
+                    <h3>Email</h3>
+                    <p>Available upon request</p>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">📱</div>
+                    <h3>Phone</h3>
+                    <p>+91 [Available upon request]</p>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon">💼</div>
+                    <h3>Work Hours</h3>
+                    <p>Monday - Friday<br>Flexible Time Zones</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Vyshnavi | Shopify Theme Developer</p>
+        <p>Built with HTML5, CSS3 & JavaScript</p>
+    </footer>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
