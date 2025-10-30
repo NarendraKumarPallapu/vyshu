@@ -1,0 +1,498 @@
+import React, { useState, useEffect } from 'react';
+import { Code, Zap, Sparkles, Download, Mail, Phone, MapPin, Github, Linkedin, ExternalLink, ChevronDown, Menu, X, ShoppingBag, Layers, Globe, Award } from 'lucide-react';
+
+export default function Portfolio() {
+  const [activeSection, setActiveSection] = useState('home');
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  const projects = [
+    {
+      title: "Hospitality E-Commerce Suite",
+      company: "Graniti Vicentia",
+      description: "Developed 12+ custom Shopify themes for hotel chains including Wingate, Holiday Inn, and Hampton properties",
+      metrics: ["45% faster load times", "95% mobile score", "500+ modifications/month"],
+      tech: ["Liquid", "React", "GraphQL", "CSS Grid"],
+      gradient: "from-purple-500 to-pink-500"
+    },
+    {
+      title: "Multi-Store E-Commerce Platform",
+      company: "Aiila Innovations",
+      description: "Managed 150+ e-commerce websites with React architecture and Shopify theme customization",
+      metrics: ["35% performance boost", "28% lower bounce rate", "300+ requests/month"],
+      tech: ["React", "SASS", "JavaScript", "Shopify API"],
+      gradient: "from-blue-500 to-cyan-500"
+    },
+    {
+      title: "Interactive Web Applications",
+      company: "Think Deeply Solution",
+      description: "Built responsive web apps with data visualization and progressive web app features",
+      metrics: ["40% faster load times", "91% delivery accuracy", "200+ components"],
+      tech: ["React", "D3.js", "REST APIs", "PWA"],
+      gradient: "from-green-500 to-teal-500"
+    }
+  ];
+
+  const skills = [
+    { category: "Shopify", items: ["Liquid", "Shopify CLI", "Theme Kit", "Shopify Plus", "Metafields"], icon: ShoppingBag, color: "from-green-400 to-emerald-600" },
+    { category: "Frontend", items: ["React.js", "JavaScript (ES6+)", "HTML5", "CSS3", "Tailwind"], icon: Code, color: "from-blue-400 to-indigo-600" },
+    { category: "APIs", items: ["GraphQL", "REST APIs", "Webhooks", "JSON", "Axios"], icon: Layers, color: "from-purple-400 to-pink-600" },
+    { category: "Tools", items: ["Git/GitHub", "VS Code", "Chrome DevTools", "Webpack", "npm"], icon: Globe, color: "from-orange-400 to-red-600" }
+  ];
+
+  const stats = [
+    { number: "4+", label: "Years Experience", icon: Award },
+    { number: "150+", label: "Websites Built", icon: Globe },
+    { number: "500+", label: "Components", icon: Layers },
+    { number: "95%", label: "Mobile Score", icon: Zap }
+  ];
+
+  const handleDownloadResume = () => {
+    const link = document.createElement('a');
+    link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent('Resume download would be triggered here');
+    link.download = 'Vyshnavi_Resume.pdf';
+    link.click();
+    alert('In a production environment, this would download your PDF resume!');
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white overflow-hidden">
+      {/* Animated Background */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div 
+          className="absolute w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
+          style={{
+            left: `${mousePosition.x / 20}px`,
+            top: `${mousePosition.y / 20}px`,
+            transition: 'all 0.3s ease-out'
+          }}
+        />
+        <div 
+          className="absolute w-96 h-96 bg-pink-500/20 rounded-full blur-3xl"
+          style={{
+            right: `${mousePosition.x / 30}px`,
+            bottom: `${mousePosition.y / 30}px`,
+            transition: 'all 0.5s ease-out'
+          }}
+        />
+      </div>
+
+      {/* Navigation */}
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrollY > 50 ? 'bg-slate-900/95 backdrop-blur-lg shadow-xl' : ''}`}>
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center space-x-2">
+              <Sparkles className="w-8 h-8 text-purple-400 animate-pulse" />
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                Vyshnavi
+              </span>
+            </div>
+
+            {/* Desktop Menu */}
+            <div className="hidden md:flex space-x-8">
+              {['Home', 'About', 'Projects', 'Skills', 'Contact'].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  className="hover:text-purple-400 transition-colors duration-300 relative group"
+                >
+                  {item}
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-400 to-pink-400 group-hover:w-full transition-all duration-300" />
+                </a>
+              ))}
+            </div>
+
+            {/* Mobile Menu Toggle */}
+            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="md:hidden">
+              {isMenuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+
+          {/* Mobile Menu */}
+          {isMenuOpen && (
+            <div className="md:hidden mt-4 space-y-4 pb-4">
+              {['Home', 'About', 'Projects', 'Skills', 'Contact'].map((item) => (
+                <a
+                  key={item}
+                  href={`#${item.toLowerCase()}`}
+                  onClick={() => setIsMenuOpen(false)}
+                  className="block hover:text-purple-400 transition-colors"
+                >
+                  {item}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <section id="home" className="relative min-h-screen flex items-center justify-center px-6 pt-20">
+        <div className="max-w-6xl mx-auto text-center relative z-10">
+          <div className="mb-8 animate-bounce">
+            <div className="inline-block p-4 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full backdrop-blur-sm">
+              <ShoppingBag className="w-20 h-20 text-purple-400" />
+            </div>
+          </div>
+          
+          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse">
+            Vyshnavi Tammineni
+          </h1>
+          
+          <p className="text-2xl md:text-4xl mb-4 text-purple-300">
+            Shopify Theme Development Specialist
+          </p>
+          
+          <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
+            Crafting pixel-perfect, high-performance e-commerce experiences with 4+ years of expertise in Shopify, React, and modern web technologies
+          </p>
+
+          {/* Stats Bar */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+            {stats.map((stat, idx) => (
+              <div 
+                key={idx}
+                className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
+              >
+                <stat.icon className="w-8 h-8 text-purple-400 mx-auto mb-2" />
+                <div className="text-3xl font-bold text-purple-400 mb-1">{stat.number}</div>
+                <div className="text-sm text-gray-400">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-wrap gap-4 justify-center">
+            <button 
+              onClick={handleDownloadResume}
+              className="group relative px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full font-semibold text-lg hover:scale-105 transition-transform duration-300 flex items-center gap-2"
+            >
+              <Download className="w-5 h-5 group-hover:animate-bounce" />
+              Download Resume
+            </button>
+            <a 
+              href="#contact"
+              className="px-8 py-4 border-2 border-purple-500 rounded-full font-semibold text-lg hover:bg-purple-500/20 transition-all duration-300"
+            >
+              Get In Touch
+            </a>
+          </div>
+
+          <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+            <ChevronDown className="w-8 h-8 text-purple-400" />
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="py-20 px-6 relative">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            About Me
+          </h2>
+          
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300">
+                <Zap className="w-12 h-12 text-purple-400 mb-4" />
+                <h3 className="text-2xl font-bold mb-4 text-purple-300">Expert Developer</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  Specialized in building scalable, high-performance Shopify themes with modern front-end technologies. Reduced page load times by 45% and achieved 95% mobile usability scores across 150+ e-commerce websites.
+                </p>
+              </div>
+
+              <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-pink-500/20 hover:border-pink-500/50 transition-all duration-300">
+                <Code className="w-12 h-12 text-pink-400 mb-4" />
+                <h3 className="text-2xl font-bold mb-4 text-pink-300">Full-Stack Capabilities</h3>
+                <p className="text-gray-300 leading-relaxed">
+                  Proficient in React, JavaScript, GraphQL, and Liquid templating. Built 500+ reusable components and integrated third-party APIs to enhance e-commerce functionality and user experience.
+                </p>
+              </div>
+            </div>
+
+            <div className="space-y-6">
+              <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
+                <h3 className="text-2xl font-bold mb-6 text-purple-300">Quick Facts</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-center gap-3">
+                    <MapPin className="w-5 h-5 text-purple-400 flex-shrink-0" />
+                    <span>Hyderabad, India (Remote - Global)</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Award className="w-5 h-5 text-pink-400 flex-shrink-0" />
+                    <span>Bachelor of Engineering - Computer Science (7.68/10.0 GPA)</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Sparkles className="w-5 h-5 text-purple-400 flex-shrink-0" />
+                    <span>Shopify Partner Program Certified</span>
+                  </li>
+                  <li className="flex items-center gap-3">
+                    <Globe className="w-5 h-5 text-pink-400 flex-shrink-0" />
+                    <span>300+ Website Customizations Completed</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-gradient-to-br from-blue-500/10 to-cyan-500/10 backdrop-blur-sm rounded-2xl p-8 border border-blue-500/30">
+                <h3 className="text-2xl font-bold mb-4 text-blue-300">Certifications</h3>
+                <div className="flex flex-wrap gap-2">
+                  {['Shopify Theme Dev', 'React.js', 'GraphQL', 'Web Accessibility', 'SEO', 'Google Analytics'].map((cert, idx) => (
+                    <span key={idx} className="px-3 py-1 bg-white/10 rounded-full text-sm border border-blue-400/30">
+                      {cert}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="py-20 px-6 relative">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Featured Projects
+          </h2>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, idx) => (
+              <div
+                key={idx}
+                className="group bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300 hover:scale-105 hover:-translate-y-2"
+              >
+                <div className={`w-16 h-16 rounded-xl bg-gradient-to-br ${project.gradient} flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform duration-300`}>
+                  <ShoppingBag className="w-8 h-8 text-white" />
+                </div>
+
+                <h3 className="text-2xl font-bold mb-2 text-purple-300">{project.title}</h3>
+                <p className="text-sm text-gray-400 mb-4">{project.company}</p>
+                <p className="text-gray-300 mb-4">{project.description}</p>
+
+                <div className="space-y-2 mb-4">
+                  {project.metrics.map((metric, i) => (
+                    <div key={i} className="flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-yellow-400" />
+                      <span className="text-sm text-gray-300">{metric}</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {project.tech.map((tech, i) => (
+                    <span key={i} className="px-3 py-1 bg-white/10 rounded-full text-xs border border-purple-400/30">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Skills Section */}
+      <section id="skills" className="py-20 px-6 relative">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Technical Skills
+          </h2>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {skills.map((skillGroup, idx) => (
+              <div
+                key={idx}
+                className="bg-white/5 backdrop-blur-sm rounded-2xl p-6 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300 hover:scale-105"
+              >
+                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${skillGroup.color} flex items-center justify-center mb-4`}>
+                  <skillGroup.icon className="w-7 h-7 text-white" />
+                </div>
+                
+                <h3 className="text-xl font-bold mb-4 text-purple-300">{skillGroup.category}</h3>
+                
+                <ul className="space-y-2">
+                  {skillGroup.items.map((skill, i) => (
+                    <li key={i} className="flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-purple-400" />
+                      <span className="text-sm text-gray-300">{skill}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          {/* Additional Skills Cloud */}
+          <div className="mt-12 bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
+            <h3 className="text-2xl font-bold mb-6 text-center text-purple-300">Additional Expertise</h3>
+            <div className="flex flex-wrap justify-center gap-3">
+              {['Performance Optimization', 'SEO', 'WCAG Accessibility', 'Responsive Design', 'Mobile-First', 'Git/GitHub', 'Agile/Scrum', 'Cross-Browser Testing', 'PageSpeed Insights', 'Chrome DevTools', 'Code Reviews', 'API Integration'].map((skill, idx) => (
+                <span 
+                  key={idx}
+                  className="px-4 py-2 bg-white/10 rounded-full text-sm border border-purple-400/30 hover:border-purple-400/60 hover:scale-110 transition-all duration-300 cursor-default"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="py-20 px-6 relative">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-5xl font-bold mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+            Let's Connect
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/20 hover:border-purple-500/50 transition-all duration-300">
+              <h3 className="text-2xl font-bold mb-6 text-purple-300">Get In Touch</h3>
+              
+              <div className="space-y-4">
+                <a 
+                  href="mailto:vyshnavitammineni009@gmail.com"
+                  className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Mail className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Email</p>
+                    <p className="text-white">vyshnavitammineni009@gmail.com</p>
+                  </div>
+                </a>
+
+                <a 
+                  href="tel:+917702730409"
+                  className="flex items-center gap-4 p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all duration-300 group"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <Phone className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Phone</p>
+                    <p className="text-white">+91 7702730409</p>
+                  </div>
+                </a>
+
+                <div className="flex items-center gap-4 p-4 bg-white/5 rounded-xl">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-teal-500 flex items-center justify-center">
+                    <MapPin className="w-6 h-6 text-white" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-400">Location</p>
+                    <p className="text-white">Hyderabad, India (Remote - Global)</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-500/10 to-pink-500/10 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/30">
+              <h3 className="text-2xl font-bold mb-6 text-purple-300">Live Availability Status</h3>
+              
+              <div className="space-y-6">
+                <div className="bg-white/5 rounded-xl p-6 border border-green-400/30">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="relative">
+                      <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse" />
+                      <div className="absolute inset-0 w-4 h-4 bg-green-400 rounded-full animate-ping" />
+                    </div>
+                    <span className="text-green-400 font-semibold text-lg">Available for Work</span>
+                  </div>
+                  <p className="text-sm text-gray-300">
+                    Currently accepting new projects and opportunities
+                  </p>
+                </div>
+
+                <div className="bg-white/5 rounded-xl p-6">
+                  <h4 className="font-semibold text-purple-300 mb-3 flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-yellow-400" />
+                    Quick Response Time
+                  </h4>
+                  <div className="space-y-2 text-sm text-gray-300">
+                    <div className="flex justify-between items-center">
+                      <span>Email Response:</span>
+                      <span className="text-purple-400 font-semibold">~2-4 hours</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Call Availability:</span>
+                      <span className="text-purple-400 font-semibold">Mon-Fri 9AM-6PM IST</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span>Time Zone:</span>
+                      <span className="text-purple-400 font-semibold">GMT+5:30</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-xl p-6 border border-purple-400/40">
+                  <div className="flex items-center gap-2 mb-3">
+                    <Sparkles className="w-5 h-5 text-yellow-400" />
+                    <h4 className="font-semibold text-purple-300">What I'm Looking For</h4>
+                  </div>
+                  <ul className="space-y-2 text-sm text-gray-300">
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                      Remote Shopify Developer Roles
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-pink-400" />
+                      Full-Time Contract Positions
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />
+                      E-Commerce Theme Projects
+                    </li>
+                  </ul>
+                </div>
+
+                <button 
+                  onClick={handleDownloadResume}
+                  className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 rounded-xl font-semibold hover:scale-105 transition-transform duration-300 flex items-center justify-center gap-2 shadow-lg shadow-purple-500/50"
+                >
+                  <Download className="w-5 h-5" />
+                  Download Full Resume
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-8 px-6 border-t border-purple-500/20 relative">
+        <div className="max-w-7xl mx-auto text-center">
+          <div className="flex items-center justify-center gap-2 mb-4">
+            <Sparkles className="w-6 h-6 text-purple-400" />
+            <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              Vyshnavi Tammineni
+            </span>
+          </div>
+          <p className="text-gray-400">
+            © 2024 All Rights Reserved | Crafted with React & Tailwind CSS
+          </p>
+          <p className="text-sm text-gray-500 mt-2">
+            Shopify Theme Development Specialist • Web Developer • E-Commerce Expert
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+}
